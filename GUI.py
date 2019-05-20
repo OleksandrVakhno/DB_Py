@@ -2,9 +2,10 @@ from tkinter import *
 from DB_Py import *
 
 
-class GUI:
+class GUI(object):
 
-    def __init__(self):
+    def __init__(self, db):
+        self.sql =db
         self.window = Tk()
         self.window.wm_title("BookStore")
         self.window.wm_iconbitmap('book.png')
@@ -89,29 +90,29 @@ class GUI:
 
     def view_command(self):
         self.clear()
-        for rows in sql.view():
+        for rows in self.sql.view():
             self.list1.insert(END, rows)
 
     def search_command(self):
         self.clear()
-        for rows in sql.search(self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get()):
+        for rows in self.sql.search(self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get()):
             self.list1.insert(END, rows)
 
     def add_command(self):
-        sql.insert(self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get())
+        self.sql.insert(self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get())
         self.clear()
         self.list1.insert(END, (self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get()))
 
     def update_command(self):
-        sql.update(selected_row[0], self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get())
+        self.sql.update(selected_row[0], self.title_text.get(), self.author_text.get(), self.year_text.get(), self.isbn_text.get())
         self.view_command()
 
     def delete_command(self):
-        sql.delete(selected_row[0])
+        self.sql.delete(selected_row[0])
         self.view_command()
 
 
 if __name__=='__main__':
-    sql = SQL()
-    GUI()
+    database = SQL("books.db")
+    GUI(database)
 
