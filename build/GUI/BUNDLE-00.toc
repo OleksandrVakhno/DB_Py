@@ -1,1 +1,0 @@
-([('GUI', '/Users/alex/Dev/Python/DB_Py/dist/GUI', 'EXECUTABLE')],)
